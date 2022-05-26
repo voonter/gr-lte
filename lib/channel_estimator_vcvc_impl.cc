@@ -41,10 +41,9 @@ namespace gr {
         const std::vector<std::vector<gr_complex> > &pilot_symbols,
         std::string name)
     {
-      return gnuradio::get_initial_sptr(
-          new channel_estimator_vcvc_impl(rxant, subcarriers, tag_key,
+      return gnuradio::make_block_sptr<channel_estimator_vcvc_impl>(rxant, subcarriers, tag_key,
                                           msg_buf_name, pilot_carriers,
-                                          pilot_symbols, name));
+                                          pilot_symbols, name);
     }
 
     /*
@@ -69,7 +68,7 @@ namespace gr {
       message_port_register_in(d_msg_buf);
       set_msg_handler(
           d_msg_buf,
-          boost::bind(&channel_estimator_vcvc_impl::handle_msg, this, _1));
+          [this](pmt::pmt_t msg) { this->handle_msg(msg); });
 
       set_pilot_map(pilot_carriers, pilot_symbols);
     }
@@ -109,7 +108,7 @@ namespace gr {
         std::vector<gr::tag_t> &v_b)
     {
       int sym_num = -1;
-      for(int i = 0; i < v_b.size(); i++){
+      for(unsigned i = 0; i < v_b.size(); i++){
         long tag_offset = v_b[i].offset;
         int value = int(pmt::to_long(v_b[i].value));
         sym_num = (value - (tag_offset - nitems_read(0)) + d_n_frame_syms)
@@ -150,7 +149,7 @@ namespace gr {
     channel_estimator_vcvc_impl::calculate_channel_estimates(
         const gr_complex* in_rx, int first_sym, int nitems)
     {
-      int last_sym = get_last_processable_sym(first_sym, nitems);
+      int last_sym = get_last_processable_sym(first_sym, nitems); (void)last_sym;
       int processable_items = get_processable_items(first_sym, nitems);
       int last_calced_sym = d_last_calced_sym;
       //printf("first_sym = %i\tlast_sym = %i\tprocessable_items = %i\tlast_calced = %i\n", first_sym, last_sym, processable_items, last_calced_sym);
@@ -301,7 +300,7 @@ namespace gr {
                                                 gr_complex* a_vec,
                                                 std::vector<int> pilot_pos)
     {
-      for(int i = 0; i < pilot_pos.size(); i++){
+      for(unsigned i = 0; i < pilot_pos.size(); i++){
         b_vec[i] = a_vec[pilot_pos[i]];
       }
     }
@@ -460,11 +459,11 @@ namespace gr {
     channel_estimator_vcvc_impl::msg_extract_poss(
         std::vector<std::vector<int> > &pilot_carriers, pmt::pmt_t poss)
     {
-      for(int i = 0; i < pmt::length((poss)); i++){
+      for(unsigned i = 0; i < pmt::length((poss)); i++){
         pmt::pmt_t p_sym = pmt::nth(i, poss);
         std::vector<int> v_sym;
         if(!pmt::is_bool(p_sym)){
-          for(int c = 0; c < pmt::length(p_sym); c++){
+          for(unsigned c = 0; c < pmt::length(p_sym); c++){
             int pos = int(pmt::to_long(pmt::nth(c, p_sym)));
             v_sym.push_back(pos);
           }
@@ -477,11 +476,11 @@ namespace gr {
     channel_estimator_vcvc_impl::msg_extract_vals(
         std::vector<std::vector<gr_complex> > &pilot_symbols, pmt::pmt_t vals)
     {
-      for(int i = 0; i < pmt::length((vals)); i++){
+      for(unsigned i = 0; i < pmt::length((vals)); i++){
         pmt::pmt_t p_sym = pmt::nth(i, vals);
         std::vector<gr_complex> v_sym;
         if(!pmt::is_bool(p_sym)){
-          for(int c = 0; c < pmt::length(p_sym); c++){
+          for(unsigned c = 0; c < pmt::length(p_sym); c++){
             gr_complex val = gr_complex(pmt::to_complex(pmt::nth(c, p_sym)));
             //printf("value %i,%i\t%+1.2f %+1.2fj\n", i, c, val.real(), val.imag() );
             v_sym.push_back(val);
@@ -520,7 +519,7 @@ namespace gr {
         const std::vector<std::vector<int> > &pilot_carriers)
     {
       int max_size = 0;
-      for(int i = 0; i < pilot_carriers.size(); i++){
+      for(unsigned i = 0; i < pilot_carriers.size(); i++){
         max_size = std::max(max_size, int(pilot_carriers[i].size()));
       }
       return max_size;

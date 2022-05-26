@@ -33,8 +33,7 @@ namespace gr {
     sss_calculator_vcm::sptr
     sss_calculator_vcm::make(int fftl, std::string key_id, std::string key_offset, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new sss_calculator_vcm_impl(fftl, key_id, key_offset, name));
+      return gnuradio::make_block_sptr<sss_calculator_vcm_impl>(fftl, key_id, key_offset, name);
     }
 
     /*
@@ -44,12 +43,12 @@ namespace gr {
       : gr::sync_block(name,
               gr::io_signature::make( 1, 1, sizeof(gr_complex) * 72),
               gr::io_signature::make(0, 0, 0)),
+                d_N_id_2(-1),
+                d_cell_id(-1),
                 d_fftl(fftl),
                 d_slotl(7*fftl+6*(144*fftl/2048)+(160*fftl/2048) ),
-                d_cell_id(-1),
                 d_max_val_new(0.0),
                 d_max_val_old(0.0),
-                d_N_id_2(-1),
                 d_sss_pos(0),
                 d_frame_start(0),
                 d_is_locked(false),
@@ -75,7 +74,7 @@ namespace gr {
         }
 
         //initialize d_sref
-        int m0_ref=0;
+        int m0_ref=0; (void)m0_ref;
         char sX_x[31]={0};
         sX_x[4]=1;
         for(int i = 0; i < 26 ; i++){

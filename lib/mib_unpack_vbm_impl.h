@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_MIB_UNPACK_VBM_IMPL_H
 #define INCLUDED_LTE_MIB_UNPACK_VBM_IMPL_H
 
-#include <lte/mib_unpack_vbm.h>
+#include <gnuradio/lte/mib_unpack_vbm.h>
 #include <cstdio>
 #include <boost/format.hpp>
 

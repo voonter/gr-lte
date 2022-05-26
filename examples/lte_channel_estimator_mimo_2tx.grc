@@ -1,0 +1,340 @@
+options:
+  parameters:
+    author: Johannes Demel, Kristian Maier
+    catch_exceptions: 'True'
+    category: lte
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb
+    hier_block_src_path: '.:'
+    id: lte_channel_estimator_mimo_2tx
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Channel Estimator MIMO 2TX
+    window_size: 1280, 1024
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 11]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: mymap0
+  id: variable
+  parameters:
+    comment: ''
+    value: lte.frame_pilot_value_and_position(N_rb_dl, initial_id, 1, 0)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [168, 443]
+    rotation: 0
+    state: enabled
+- name: mymap1
+  id: variable
+  parameters:
+    comment: ''
+    value: lte.frame_pilot_value_and_position(N_rb_dl, initial_id, 1, 0)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [168, 507]
+    rotation: 0
+    state: enabled
+- name: poss0
+  id: variable
+  parameters:
+    comment: ''
+    value: mymap0[0]
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 443]
+    rotation: 0
+    state: enabled
+- name: poss1
+  id: variable
+  parameters:
+    comment: ''
+    value: mymap1[0]
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 507]
+    rotation: 0
+    state: enabled
+- name: vals0
+  id: variable
+  parameters:
+    comment: ''
+    value: mymap0[1]
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [304, 443]
+    rotation: 0
+    state: enabled
+- name: vals1
+  id: variable
+  parameters:
+    comment: ''
+    value: mymap1[1]
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [304, 507]
+    rotation: 0
+    state: enabled
+- name: N_rb_dl
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: resource blocks
+    short_id: ''
+    type: intx
+    value: '50'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 11]
+    rotation: 0
+    state: enabled
+- name: ain0
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: in
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: 12*N_rb_dl*rxant
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 147]
+    rotation: 0
+    state: enabled
+- name: cell_id
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: cell_id
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'True'
+    type: message
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [48, 243]
+    rotation: 0
+    state: enabled
+- name: estimator_key
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Tag Key
+    short_id: ''
+    type: ''
+    value: '"slot"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [336, 11]
+    rotation: 0
+    state: enabled
+- name: initial_id
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: initial Cell ID
+    short_id: ''
+    type: intx
+    value: '111'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [448, 11]
+    rotation: 0
+    state: enabled
+- name: lte_channel_estimator_vcvc_0
+  id: lte_channel_estimator_vcvc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    pilot_carriers: poss0
+    pilot_symbols: vals0
+    rxant: '2'
+    subcarriers: 12*N_rb_dl
+    tag_key: estimator_key
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 139]
+    rotation: 0
+    state: enabled
+- name: lte_channel_estimator_vcvc_0_0
+  id: lte_channel_estimator_vcvc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    pilot_carriers: poss1
+    pilot_symbols: vals1
+    rxant: '2'
+    subcarriers: 12*N_rb_dl
+    tag_key: estimator_key
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 251]
+    rotation: 0
+    state: enabled
+- name: ofdm_estimator_lte_rs_map_generator_m_0
+  id: lte_rs_map_generator_m
+  parameters:
+    N_rb_dl: N_rb_dl
+    affinity: ''
+    alias: ''
+    ant_port: '0'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [344, 179]
+    rotation: 0
+    state: enabled
+- name: ofdm_estimator_lte_rs_map_generator_m_1
+  id: lte_rs_map_generator_m
+  parameters:
+    N_rb_dl: N_rb_dl
+    affinity: ''
+    alias: ''
+    ant_port: '1'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [344, 291]
+    rotation: 0
+    state: enabled
+- name: pad_sink_0
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: ant_p0_est
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: 12*N_rb_dl*rxant
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [728, 163]
+    rotation: 0
+    state: enabled
+- name: pad_sink_0_0
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: ant_p1_est
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: 12*N_rb_dl*rxant
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [728, 275]
+    rotation: 0
+    state: enabled
+- name: rxant
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: RX antennas
+    short_id: ''
+    type: intx
+    value: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [568, 11]
+    rotation: 0
+    state: enabled
+
+connections:
+- [ain0, '0', lte_channel_estimator_vcvc_0, '0']
+- [ain0, '0', lte_channel_estimator_vcvc_0_0, '0']
+- [cell_id, out, ofdm_estimator_lte_rs_map_generator_m_0, cell_id]
+- [cell_id, out, ofdm_estimator_lte_rs_map_generator_m_1, cell_id]
+- [lte_channel_estimator_vcvc_0, '0', pad_sink_0, '0']
+- [lte_channel_estimator_vcvc_0_0, '0', pad_sink_0_0, '0']
+- [ofdm_estimator_lte_rs_map_generator_m_0, pilots, lte_channel_estimator_vcvc_0,
+  pilots]
+- [ofdm_estimator_lte_rs_map_generator_m_1, pilots, lte_channel_estimator_vcvc_0_0,
+  pilots]
+
+metadata:
+  file_format: 1

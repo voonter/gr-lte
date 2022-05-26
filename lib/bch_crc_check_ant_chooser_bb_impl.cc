@@ -32,8 +32,7 @@ namespace gr {
     bch_crc_check_ant_chooser_bb::sptr
     bch_crc_check_ant_chooser_bb::make(std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new bch_crc_check_ant_chooser_bb_impl(name));
+      return gnuradio::make_block_sptr<bch_crc_check_ant_chooser_bb_impl>(name);
     }
 
     /*

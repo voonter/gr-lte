@@ -35,8 +35,7 @@ namespace gr {
     pre_decoder_vcvc::sptr
     pre_decoder_vcvc::make(int rxant, int N_ant, int vlen, std::string style)
     {
-      return gnuradio::get_initial_sptr
-        (new pre_decoder_vcvc_impl(rxant, N_ant, vlen, style));
+      return gnuradio::make_block_sptr<pre_decoder_vcvc_impl>(rxant, N_ant, vlen, style);
     }
 
     /*
@@ -46,16 +45,17 @@ namespace gr {
       : gr::sync_block("mimo_pre_decoder",
               gr::io_signature::make( 2, 5, sizeof(gr_complex) * vlen * rxant),
               gr::io_signature::make( 1, 1, sizeof(gr_complex) * vlen)),
-              d_vlen(vlen),
-              d_rxant(rxant)
+              d_rxant(rxant),
+              d_vlen(vlen)
+
     {
         set_N_ant(N_ant);
 		set_decoding_style(style);
 		setup_volk_vectors(vlen);
 
 		pmt::pmt_t msg_buf = pmt::mp("N_ant");
-		message_port_register_in(msg_buf);
-		set_msg_handler(msg_buf, boost::bind(&pre_decoder_vcvc_impl::handle_msg, this, _1));
+		message_port_register_in(msg_buf); 
+		set_msg_handler(msg_buf, [this](pmt::pmt_t msg) { this->handle_msg(msg); });
 	}
 
     /*
@@ -149,8 +149,8 @@ namespace gr {
 
         */
         //binary representation of 0.0 is 0b0;
-        memset(d_mag, 0, sizeof(float)*len);
-        memset(out, 0, sizeof(gr_complex)*len);
+        memset((void*)d_mag, 0, sizeof(float)*len);
+        memset((void*)out, 0, sizeof(gr_complex)*len);
 
         for(int i=0; i<d_rxant; i++){
 
@@ -227,9 +227,9 @@ namespace gr {
 		int len2 = len/2;
 
         //binary representation of 0.0 is 0b0;
-        memset(d_mag, 0, sizeof(float)*len2);
-        memset(out0, 0, sizeof(gr_complex)*len2);
-        memset(out1, 0, sizeof(gr_complex)*len2);
+        memset((void*)d_mag, 0, sizeof(float)*len2);
+        memset((void*)out0, 0, sizeof(gr_complex)*len2);
+        memset((void*)out1, 0, sizeof(gr_complex)*len2);
 
         for(int i=0; i<d_rxant; i++){
 

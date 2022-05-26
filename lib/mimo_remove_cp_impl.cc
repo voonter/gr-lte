@@ -33,7 +33,7 @@ namespace gr {
     mimo_remove_cp::sptr
     mimo_remove_cp::make(int fftl, int rxant, std::string key)
     {
-      return gnuradio::get_initial_sptr(new mimo_remove_cp_impl(fftl, rxant, key));
+      return gnuradio::make_block_sptr<mimo_remove_cp_impl>(fftl, rxant, key);
     }
 
     /*
@@ -43,8 +43,8 @@ namespace gr {
             gr::block("mimo_remove_cp", gr::io_signature::make(1, 8, sizeof(gr_complex)),
                       gr::io_signature::make(1, 8, sizeof(gr_complex) * fftl)), d_fftl(fftl),
             d_rxant(rxant), d_cpl((144 * fftl) / 2048), d_cpl0((160 * fftl) / 2048),
-            d_slotl(7 * fftl + 6 * d_cpl + d_cpl0), d_symb(0), d_sym_num(0), d_work_call(0),
-            d_found_frame_start(false), d_half_frame_start(0), d_symbols_per_frame(140)
+            d_slotl(7 * fftl + 6 * d_cpl + d_cpl0), d_symb(0), d_sym_num(0), d_symbols_per_frame(140),
+            d_work_call(0), d_found_frame_start(false), d_half_frame_start(0)
     {
       d_key = pmt::string_to_symbol(key);
       d_tag_id = pmt::string_to_symbol(this->name());
@@ -55,7 +55,7 @@ namespace gr {
     mimo_remove_cp_impl::find_smallest_ninput_items(gr_vector_int& ninput_item)
     {
       int n = ninput_item[0];
-      for(int i = 0; i < ninput_item.size(); i++){
+      for(unsigned i = 0; i < ninput_item.size(); i++){
         n = std::min(n, ninput_item[i]);
       }
       return n;

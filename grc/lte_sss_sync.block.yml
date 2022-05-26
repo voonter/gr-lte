@@ -1,0 +1,58 @@
+id: lte_sss_sync
+label: LTE SSS Sync
+category: lte
+
+parameters:
+-   id: N_rb_dl
+    label: resource blocks
+    dtype: int
+    default: '50'
+    hide: none
+-   id: fftlen
+    label: FFT length
+    dtype: int
+    default: '2048'
+    hide: none
+-   id: group_key
+    label: Cell ID group key
+    dtype: raw
+    default: N_id_2
+    hide: none
+-   id: offset_key
+    label: offset marker key
+    dtype: raw
+    default: offset_marker
+    hide: none
+
+inputs:
+-   label: in
+    dtype: complex
+    vlen: 1
+
+outputs:
+-   label: out
+    dtype: complex
+    vlen: 1
+-   label: cell_id
+    domain: message
+    dtype: message
+    optional: true
+
+templates:
+    imports: 'from lte_sss_sync import lte_sss_sync  # grc-generated hier_block'
+    make: "lte_sss_sync(\n    N_rb_dl=${ N_rb_dl },\n    fftlen=${ fftlen },\n   \
+        \ group_key=${ group_key },\n    offset_key=${ offset_key },\n)"
+    callbacks:
+    - set_N_rb_dl(${ N_rb_dl })
+    - set_fftlen(${ fftlen })
+    - set_group_key(${ group_key })
+    - set_offset_key(${ offset_key })
+
+documentation: 'Johannes Demel
+
+    hierarchical block including blocks for LTE SSS synchronization.
+
+    lte_sss_sync.py'
+grc_source: ../examples/lte_sss_sync.grc
+
+file_format: 1

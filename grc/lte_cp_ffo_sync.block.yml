@@ -1,0 +1,35 @@
+id: lte_cp_ffo_sync
+label: CP-based FFO Sync
+category: lte
+
+parameters:
+-   id: fftlen
+    label: FFT length
+    dtype: int
+    default: '2048'
+    hide: none
+
+inputs:
+-   label: in
+    dtype: complex
+    vlen: 1
+
+outputs:
+-   label: out
+    dtype: complex
+    vlen: 1
+
+templates:
+    imports: 'from lte_cp_ffo_sync import lte_cp_ffo_sync  # grc-generated hier_block'
+    make: "lte_cp_ffo_sync(\n    fftlen=${ fftlen },\n)"
+    callbacks:
+    - set_fftlen(${ fftlen })
+
+documentation: 'Johannes Demel
+
+    Cyclic Prefix based synchronization for the fractional frequency offset
+
+    lte_cp_ffo_sync.py'
+grc_source: ../examples/hier_blocks/lte_cp_ffo_sync.grc
+
+file_format: 1

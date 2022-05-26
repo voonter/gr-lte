@@ -1,0 +1,33 @@
+id: lte_pbch_descrambler
+label: PBCH Descrambler
+category: lte
+
+parameters: []
+
+inputs:
+-   label: in
+    dtype: float
+    vlen: 480
+-   label: cell_id
+    domain: message
+    dtype: message
+
+outputs:
+-   label: out
+    dtype: float
+    vlen: 120
+
+templates:
+    imports: 'from lte_pbch_descrambler import lte_pbch_descrambler  # grc-generated
+        hier_block'
+    make: lte_pbch_descrambler()
+    callbacks: []
+
+documentation: 'Johannes Demel
+
+    Block to descramble PBCH
+
+    lte_pbch_descrambler.py'
+grc_source: ../examples/lte_pbch_descrambler.grc
+
+file_format: 1

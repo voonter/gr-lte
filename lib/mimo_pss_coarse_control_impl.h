@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_MIMO_PSS_COARSE_CONTROL_IMPL_H
 #define INCLUDED_LTE_MIMO_PSS_COARSE_CONTROL_IMPL_H
 
-#include <lte/mimo_pss_coarse_control.h>
+#include <gnuradio/lte/mimo_pss_coarse_control.h>
 
 namespace gr {
   namespace lte {

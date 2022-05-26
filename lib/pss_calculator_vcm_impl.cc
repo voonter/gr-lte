@@ -36,8 +36,7 @@ namespace gr {
     pss_calculator_vcm::sptr
     pss_calculator_vcm::make(int fftl, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new pss_calculator_vcm_impl(fftl, name));
+      return gnuradio::make_block_sptr<pss_calculator_vcm_impl>(fftl, name);
     }
 
     /*
@@ -65,7 +64,7 @@ namespace gr {
         message_port_register_out(d_port_half_frame_start);
         d_port_N_id_2 = pmt::string_to_symbol("N_id_2");
         message_port_register_out(d_port_N_id_2);
-        
+
         zc(d_chu0,0);
         zc(d_chu1,1);
         zc(d_chu2,2);
@@ -102,7 +101,8 @@ namespace gr {
     {
         	// This is a sink block. It does not compute any output.
         const gr_complex *in = (const gr_complex *) input_items[0];
-
+        std::stringstream sout;
+        sout << "***** LTE DEBUG PRINT ******" << std::endl;
         // variable used in multiple positions
         long nir = nitems_read(0);
 

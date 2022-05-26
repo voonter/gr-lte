@@ -33,8 +33,7 @@ namespace gr {
     mimo_sss_tagger::sptr
     mimo_sss_tagger::make(int rxant, int N_rb_dl)
     {
-      return gnuradio::get_initial_sptr
-        (new mimo_sss_tagger_impl(rxant, N_rb_dl));
+      return gnuradio::make_block_sptr<mimo_sss_tagger_impl>(rxant, N_rb_dl);
     }
 
     /*
@@ -46,15 +45,16 @@ namespace gr {
               gr::io_signature::make( 1, 8, sizeof(gr_complex) * N_rb_dl * 12 * rxant)),
                 d_rxant(rxant),
                 d_N_rb_dl(N_rb_dl),
-                d_frame_start(-1),
-                d_sym_num(-1)
+                d_sym_num(-1),
+                d_frame_start(-1)
+
     {
         set_tag_propagation_policy(TPP_DONT);
         d_key = pmt::string_to_symbol("slot");
         d_tag_id = pmt::string_to_symbol(this->name() );
 
-        message_port_register_in(pmt::mp("frame_start"));
-		set_msg_handler(pmt::mp("frame_start"), boost::bind(&mimo_sss_tagger_impl::handle_msg_frame_start, this, _1));
+        message_port_register_in(pmt::mp("frame_start")); 
+		set_msg_handler(pmt::mp("frame_start"), [this](pmt::pmt_t msg) { this->handle_msg_frame_start(msg); });
 
     }
 

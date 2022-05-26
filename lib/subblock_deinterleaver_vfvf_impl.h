@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_SUBBLOCK_DEINTERLEAVER_VFVF_IMPL_H
 #define INCLUDED_LTE_SUBBLOCK_DEINTERLEAVER_VFVF_IMPL_H
 
-#include <lte/subblock_deinterleaver_vfvf.h>
+#include <gnuradio/lte/subblock_deinterleaver_vfvf.h>
 
 namespace gr {
   namespace lte {

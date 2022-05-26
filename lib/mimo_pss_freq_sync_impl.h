@@ -21,12 +21,12 @@
 #ifndef INCLUDED_LTE_MIMO_PSS_FREQ_SYNC_IMPL_H
 #define INCLUDED_LTE_MIMO_PSS_FREQ_SYNC_IMPL_H
 
-#include <lte/mimo_pss_freq_sync.h>
+#include <gnuradio/lte/mimo_pss_freq_sync.h>
 
 namespace gr {
   namespace lte {
 
-    class mimo_pss_freq_sync_impl : public mimo_pss_freq_sync
+    class LTE_API mimo_pss_freq_sync_impl : public mimo_pss_freq_sync
     {
      private:
        int d_fftl;
@@ -41,7 +41,7 @@ namespace gr {
        gr_complex **d_buf_pss;
 
        pmt::pmt_t d_id_key;
-       boost::shared_ptr<gr::analog::sig_source_c> d_sig;
+       pmt::pmt_t d_port_freq;
 
        void mult_memcpy(gr_complex** &out,
                 const gr_vector_const_void_star &in,
@@ -51,7 +51,7 @@ namespace gr {
 
 
      public:
-      mimo_pss_freq_sync_impl(int fftl, int rxant, boost::shared_ptr<gr::analog::sig_source_c> &sig);
+      mimo_pss_freq_sync_impl(int fftl, int rxant);
       ~mimo_pss_freq_sync_impl();
 
 

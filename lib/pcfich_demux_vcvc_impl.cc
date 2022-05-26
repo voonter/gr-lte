@@ -31,8 +31,7 @@ namespace gr {
     pcfich_demux_vcvc::sptr
     pcfich_demux_vcvc::make(int N_rb_dl, std::string key, std::string out_key, std::string msg_buf_name, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new pcfich_demux_vcvc_impl(N_rb_dl, key, out_key, msg_buf_name, name));
+      return gnuradio::make_block_sptr<pcfich_demux_vcvc_impl>(N_rb_dl, key, out_key, msg_buf_name, name);
     }
 
     /*
@@ -42,16 +41,16 @@ namespace gr {
       : gr::block(name,
               gr::io_signature::make(1, 1, sizeof(gr_complex) * 12 * N_rb_dl),
               gr::io_signature::make(1, 1, sizeof(gr_complex) * 16)),
+              d_N_rb_dl(N_rb_dl),
               d_cell_id(0),
-              d_sym_num(0),
-              d_N_rb_dl(N_rb_dl)
+              d_sym_num(0)
     {
         d_key = pmt::string_to_symbol(key); // specify key of incoming tag.
         d_out_key = pmt::string_to_symbol(out_key); // key for new tags.
         d_tag_id = pmt::string_to_symbol( this->name() );
         d_msg_buf = pmt::mp(msg_buf_name);
-        message_port_register_in(d_msg_buf);
-        set_msg_handler(d_msg_buf, boost::bind(&pcfich_demux_vcvc_impl::handle_msg, this, _1));
+        message_port_register_in(d_msg_buf); 
+        set_msg_handler(d_msg_buf, [this](pmt::pmt_t msg) { this->handle_msg(msg); });
 
         //set_tag_propagation_policy(TPP_DONT);
 
@@ -69,7 +68,7 @@ namespace gr {
     pcfich_demux_vcvc_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
         const int nsyms_in_subframe = 14; // make it constant here for now.
-        for(int i = 0; i < ninput_items_required.size(); i++){
+        for(unsigned i = 0; i < ninput_items_required.size(); i++){
             ninput_items_required[i] = nsyms_in_subframe;
         }
     }

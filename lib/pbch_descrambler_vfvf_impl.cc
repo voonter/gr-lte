@@ -36,8 +36,7 @@ namespace gr {
     pbch_descrambler_vfvf::sptr
     pbch_descrambler_vfvf::make(std::string key)
     {
-      return gnuradio::get_initial_sptr
-        (new pbch_descrambler_vfvf_impl(key));
+      return gnuradio::make_block_sptr<pbch_descrambler_vfvf_impl>(key);
     }
 
     /*
@@ -48,8 +47,9 @@ namespace gr {
               gr::io_signature::make( 1, 1, sizeof(float) * 1920),
               gr::io_signature::make( 1, 1, sizeof(float) * 120), 16),
               d_cell_id(-1),
-			  d_work_call(0),
-			  d_pn_seq_len(1920)
+              d_pn_seq_len(1920),
+              d_work_call(0)
+
     {
 		//~ printf("this is the constructor\n");
 		//~ const int item_size = sizeof(float);
@@ -58,7 +58,7 @@ namespace gr {
 		//~ printf("alignment set!\n");
 		
 		message_port_register_in(pmt::mp("cell_id"));
-		set_msg_handler(pmt::mp("cell_id"), boost::bind(&pbch_descrambler_vfvf_impl::set_cell_id_msg, this, _1));
+		set_msg_handler(pmt::mp("cell_id"), [this](pmt::pmt_t msg) { this->set_cell_id_msg(msg); });
 
 		// set PMT blob info
 		d_key=pmt::string_to_symbol(key);

@@ -33,8 +33,7 @@ namespace gr {
     sss_tagger_cc::sptr
     sss_tagger_cc::make(int fftl, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new sss_tagger_cc_impl(fftl, name));
+      return gnuradio::make_block_sptr<sss_tagger_cc_impl>(fftl, name);
     }
 
     /*
@@ -49,16 +48,17 @@ namespace gr {
                 d_cpl0(160*fftl/2048),
                 d_slotl(7*fftl+6*d_cpl+d_cpl0),
                 d_framel(20*d_slotl),
+                d_slot_num(41),
                 d_offset_0(0),
-                d_frame_start(0),
-                d_slot_num(41)
+                d_frame_start(0)
+
     {
         set_tag_propagation_policy(TPP_DONT);
         d_key = pmt::string_to_symbol("slot");
         d_tag_id = pmt::string_to_symbol(this->name() );
         
         message_port_register_in(pmt::mp("frame_start"));
-		set_msg_handler(pmt::mp("frame_start"), boost::bind(&sss_tagger_cc_impl::handle_msg_frame_start, this, _1));
+		set_msg_handler(pmt::mp("frame_start"), [this](pmt::pmt_t msg) { this->handle_msg_frame_start(msg); });
 
     }
     

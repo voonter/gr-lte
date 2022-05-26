@@ -33,8 +33,7 @@ namespace gr {
     mimo_pss_coarse_control::sptr
     mimo_pss_coarse_control::make(int rxant)
     {
-      return gnuradio::get_initial_sptr
-        (new mimo_pss_coarse_control_impl(rxant));
+      return gnuradio::make_block_sptr<mimo_pss_coarse_control_impl>(rxant);
     }
 
     /*
@@ -48,7 +47,7 @@ namespace gr {
               d_rxant(rxant)
     {
         message_port_register_in(pmt::mp("control"));
-        set_msg_handler(pmt::mp("control"), boost::bind(&mimo_pss_coarse_control_impl::handle_msg_control, this, _1));
+        set_msg_handler(pmt::mp("control"), [this](pmt::pmt_t msg) { this->handle_msg_control(msg); });
     }
 
     void

@@ -32,8 +32,7 @@ namespace gr {
     mimo_sss_symbol_selector::sptr
     mimo_sss_symbol_selector::make(int rxant, int N_rb_dl)
     {
-      return gnuradio::get_initial_sptr
-        (new mimo_sss_symbol_selector_impl(rxant, N_rb_dl));
+      return gnuradio::make_block_sptr<mimo_sss_symbol_selector_impl>(rxant, N_rb_dl);
     }
 
     /*
@@ -44,11 +43,11 @@ namespace gr {
               gr::io_signature::make(1, 8, sizeof(gr_complex) * N_rb_dl * 12 * rxant),
               gr::io_signature::make(1, 8, sizeof(gr_complex) * 72 * rxant)),
                 d_rxant(rxant),
+                d_N_rb_dl(N_rb_dl),
                 d_slot_num(0),
                 d_sym_num(0),
                 d_abs_pos(0),
-                d_offset(0),
-                d_N_rb_dl(N_rb_dl)
+                d_offset(0)
     {
         set_relative_rate(1.0/70);
         //printf("rel_rate = %f\n",relative_rate());
@@ -67,7 +66,7 @@ namespace gr {
     void
     mimo_sss_symbol_selector_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-        for(int i = 0 ; i < ninput_items_required.size() ; i++){
+        for(unsigned i = 0 ; i < ninput_items_required.size() ; i++){
             ninput_items_required[i] = noutput_items;
         }
         /* <+forecast+> e.g. ninput_items_required[0] = noutput_items */

@@ -1,0 +1,56 @@
+id: lte_pss_sync_direct_mimo_2tx
+label: PSS Sync direct MIMO 2TX
+category: lte
+
+parameters:
+-   id: fftlen
+    label: FFT length
+    dtype: int
+    default: '2048'
+    hide: none
+-   id: rxant
+    label: RX antennas
+    dtype: int
+    default: '2'
+    hide: none
+-   id: synclen
+    label: synclen
+    dtype: int
+    default: '4'
+    hide: none
+
+inputs:
+-   label: in
+    dtype: complex
+    vlen: 1
+-   label: in
+    dtype: complex
+    vlen: 1
+
+outputs:
+-   label: out
+    dtype: complex
+    vlen: 1
+-   label: out
+    dtype: complex
+    vlen: 1
+-   label: N_id_2
+    domain: message
+    dtype: message
+
+templates:
+    imports: 'from lte_pss_sync_direct_mimo_2tx import lte_pss_sync_direct_mimo_2tx  #
+        grc-generated hier_block'
+    make: "lte_pss_sync_direct_mimo_2tx(\n    fftlen=${ fftlen },\n    rxant=${ rxant\
+        \ },\n    synclen=${ synclen },\n)"
+    callbacks:
+    - set_fftlen(${ fftlen })
+    - set_rxant(${ rxant })
+    - set_synclen(${ synclen })
+
+documentation: 'Kristian Maier
+
+    lte_pss_sync_direct_mimo_2tx.py'
+grc_source: ../examples/lte_pss_sync_direct_mimo_2tx.grc
+
+file_format: 1

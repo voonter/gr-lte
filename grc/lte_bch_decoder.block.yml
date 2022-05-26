@@ -1,0 +1,32 @@
+id: lte_bch_decoder
+label: BCH Decoder
+category: lte
+
+parameters: []
+
+inputs:
+-   label: in
+    dtype: float
+    vlen: 120
+
+outputs:
+-   label: mib
+    dtype: byte
+    vlen: 24
+-   label: N_ant
+    dtype: byte
+    vlen: 1
+
+templates:
+    imports: 'from lte_bch_decoder import lte_bch_decoder  # grc-generated hier_block'
+    make: lte_bch_decoder()
+    callbacks: []
+
+documentation: 'Johannes Demel
+
+    GR 3.7 hier block for LTE BCH decoding
+
+    lte_bch_decoder.py'
+grc_source: ../examples/lte_bch_decoder.grc
+
+file_format: 1

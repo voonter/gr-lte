@@ -21,10 +21,10 @@
 #ifndef INCLUDED_LTE_PSS_CALCULATOR_VCM_IMPL_H
 #define INCLUDED_LTE_PSS_CALCULATOR_VCM_IMPL_H
 
-#include <lte/pss_calculator_vcm.h>
-//~ #include <lte/pss_symbol_selector_cvc.h>
-//~ #include <lte/pss_tagger_cc.h>
-#include <lte/correlator.h>
+#include <gnuradio/lte/pss_calculator_vcm.h>
+//~ #include <gnuradio/lte/pss_symbol_selector_cvc.h>
+//~ #include <gnuradio/lte/pss_tagger_cc.h>
+#include <gnuradio/lte/correlator.h>
 
 namespace gr {
   namespace lte {

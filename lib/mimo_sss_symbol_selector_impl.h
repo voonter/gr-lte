@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_MIMO_SSS_SYMBOL_SELECTOR_IMPL_H
 #define INCLUDED_LTE_MIMO_SSS_SYMBOL_SELECTOR_IMPL_H
 
-#include <lte/mimo_sss_symbol_selector.h>
+#include <gnuradio/lte/mimo_sss_symbol_selector.h>
 
 namespace gr {
   namespace lte {

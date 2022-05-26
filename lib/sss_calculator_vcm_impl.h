@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_SSS_CALCULATOR_VCM_IMPL_H
 #define INCLUDED_LTE_SSS_CALCULATOR_VCM_IMPL_H
 
-#include <lte/sss_calculator_vcm.h>
+#include <gnuradio/lte/sss_calculator_vcm.h>
 
 namespace gr {
   namespace lte {

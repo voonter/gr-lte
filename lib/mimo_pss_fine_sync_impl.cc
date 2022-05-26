@@ -28,7 +28,7 @@
 #include <cstdio>
 #include <cmath>
 #include <volk/volk.h>
-#include "lte/pss.h"
+#include <gnuradio/lte/pss.h>
 
 #include <gnuradio/filter/fir_filter.h>
 
@@ -40,8 +40,7 @@ namespace lte
 mimo_pss_fine_sync::sptr
 mimo_pss_fine_sync::make(int fftl, int rxant, int grpdelay)
 {
-    return gnuradio::get_initial_sptr
-           (new mimo_pss_fine_sync_impl(fftl, rxant, grpdelay));
+    return gnuradio::make_block_sptr<mimo_pss_fine_sync_impl>(fftl, rxant, grpdelay);
 }
 
 /*
@@ -51,25 +50,25 @@ mimo_pss_fine_sync_impl::mimo_pss_fine_sync_impl(int fftl, int rxant, int grpdel
     : gr::sync_block("mimo_pss_fine_sync",
                      gr::io_signature::make(1, 8, sizeof(gr_complex)),
                      gr::io_signature::make(0, 0, 0)),
-    d_N_id_2(-1),
+    d_fftl(fftl),
     d_rxant(rxant),
     d_grpdelay(grpdelay),
-    d_coarse_pos(-1),
-    d_fine_pos(0),
-    d_fine_corr_count(0),
-    d_fftl(fftl),
     d_cpl(144*fftl/2048),
     d_cpl0(160*fftl/2048),
     d_slotl(7*fftl+6*d_cpl+d_cpl0),
     d_halffl(10*d_slotl),
+    d_decim(fftl/64),
+    d_N_id_2(-1),
+    d_coarse_pos(-1),
+    d_fine_pos(0),
+    d_fine_corr_count(0),
+    d_step(0),
     d_half_frame_start(0),
     d_corr_val(0),
-    d_is_locked(false),
-    d_decim(fftl/64),
-    d_step(0),
     d_val_early(0),
     d_val_prompt(0),
-    d_val_late(0)
+    d_val_late(0),
+    d_is_locked(false)
 {
 
     d_slot_key=pmt::string_to_symbol("slot");
@@ -81,10 +80,10 @@ mimo_pss_fine_sync_impl::mimo_pss_fine_sync_impl(int fftl, int rxant, int grpdel
 
     d_a = (gr_complex*)volk_malloc(sizeof(gr_complex)*4,alig);
 
-    message_port_register_in(pmt::mp("N_id_2"));
-    set_msg_handler(pmt::mp("N_id_2"), boost::bind(&mimo_pss_fine_sync_impl::handle_msg_N_id_2, this, _1));
-    message_port_register_in(pmt::mp("coarse_pos"));
-    set_msg_handler(pmt::mp("coarse_pos"), boost::bind(&mimo_pss_fine_sync_impl::handle_msg_coarse_pos, this, _1));
+    message_port_register_in(pmt::mp("N_id_2")); 
+    set_msg_handler(pmt::mp("N_id_2"), [this](pmt::pmt_t msg) { this->handle_msg_N_id_2(msg); });
+    message_port_register_in(pmt::mp("coarse_pos")); 
+    set_msg_handler(pmt::mp("coarse_pos"), [this](pmt::pmt_t msg) { this->handle_msg_coarse_pos(msg); });
 
     d_port_half_frame = pmt::string_to_symbol("half_frame");
     message_port_register_out(d_port_half_frame);

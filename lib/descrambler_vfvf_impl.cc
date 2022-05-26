@@ -35,8 +35,7 @@ namespace gr {
     descrambler_vfvf::sptr
     descrambler_vfvf::make(std::string tag_key, std::string msg_buf_name, int len, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new descrambler_vfvf_impl(name, tag_key, msg_buf_name, len));
+      return gnuradio::make_block_sptr<descrambler_vfvf_impl>(name, tag_key, msg_buf_name, len);
     }
 
     /*
@@ -54,7 +53,7 @@ namespace gr {
 
         d_msg_buf = pmt::mp(msg_buf_name);
         message_port_register_in(d_msg_buf);
-        set_msg_handler(d_msg_buf, boost::bind(&descrambler_vfvf_impl::handle_msg, this, _1));
+        set_msg_handler(d_msg_buf, [this](pmt::pmt_t msg) { this->handle_msg(msg); });
     }
 
     /*
@@ -131,11 +130,11 @@ namespace gr {
         }
         printf("%s received msg", name().c_str());
         std::vector<std::vector<float> > seqs;
-        for(int i = 0; i < pmt::length(msg); i++){
+        for(unsigned i = 0; i < pmt::length(msg); i++){
 //            printf("vector num = %i of %lu\n", i, pmt::length(msg));
             pmt::pmt_t pmt_vec = pmt::vector_ref(msg, i);
             std::vector<float> vec;
-            for(int e = 0; e < pmt::length(pmt_vec); e++){
+            for(unsigned e = 0; e < pmt::length(pmt_vec); e++){
                 float elem = (float)pmt::to_double(pmt::vector_ref(pmt_vec, e));
 //                printf("ns = %i, e = %i, val = %f\n", i, e, elem);
                 vec.push_back(/*pmt::f32vector_ref(pmt_vec, e)*/ elem);
@@ -153,7 +152,7 @@ namespace gr {
         d_num_seqs = seqs.size();
 
         std::vector<float*> aligned_seqs;
-        for(int n = 0; n < seqs.size(); n++) {
+        for(unsigned n = 0; n < seqs.size(); n++) {
             aligned_seqs.push_back(get_aligned_sequence(seqs[n]));
         }
         d_scr_seq_vec = aligned_seqs;

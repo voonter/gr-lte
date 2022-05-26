@@ -35,8 +35,7 @@ namespace gr {
     qpsk_soft_demod_vcvf::sptr
     qpsk_soft_demod_vcvf::make(int vlen, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new qpsk_soft_demod_vcvf_impl(vlen, name));
+      return gnuradio::make_block_sptr<qpsk_soft_demod_vcvf_impl>(vlen, name);
     }
 
     /*

@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_EXTRACT_SUBCARRIERS_VCVC_IMPL_H
 #define INCLUDED_LTE_EXTRACT_SUBCARRIERS_VCVC_IMPL_H
 
-#include <lte/extract_subcarriers_vcvc.h>
+#include <gnuradio/lte/extract_subcarriers_vcvc.h>
 
 namespace gr {
   namespace lte {

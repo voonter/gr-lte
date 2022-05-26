@@ -22,7 +22,7 @@
 #ifndef INCLUDED_LTE_MIMO_PSS_FINE_SYNC_IMPL_H
 #define INCLUDED_LTE_MIMO_PSS_FINE_SYNC_IMPL_H
 
-#include <lte/mimo_pss_fine_sync.h>
+#include <gnuradio/lte/mimo_pss_fine_sync.h>
 
 
 namespace gr

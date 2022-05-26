@@ -1,0 +1,35 @@
+id: lte_pss_sync
+label: LTE PSS Sync
+category: lte
+
+parameters:
+-   id: fftlen
+    label: FFT length
+    dtype: int
+    default: '2048'
+    hide: none
+
+inputs:
+-   label: in
+    dtype: complex
+    vlen: 1
+
+outputs:
+-   label: out
+    dtype: complex
+    vlen: 1
+
+templates:
+    imports: 'from lte_pss_sync import lte_pss_sync  # grc-generated hier_block'
+    make: "lte_pss_sync(\n    fftlen=${ fftlen },\n)"
+    callbacks:
+    - set_fftlen(${ fftlen })
+
+documentation: 'Johannes Demel
+
+    hierarchical blocks for PSS synchronization
+
+    lte_pss_sync.py'
+grc_source: ../examples/lte_pss_sync.grc
+
+file_format: 1

@@ -31,8 +31,7 @@ namespace gr {
     mib_unpack_vbm::sptr
     mib_unpack_vbm::make(std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new mib_unpack_vbm_impl(name));
+      return gnuradio::make_block_sptr<mib_unpack_vbm_impl>(name);
     }
 
     /*
@@ -96,7 +95,7 @@ namespace gr {
     void
 	mib_unpack_vbm_impl::decode_mib(char* mib)
 	{
-		bool unchanged = decode_state_mib(mib);
+		bool unchanged = decode_state_mib(mib); (void)unchanged;
 		//~ if(!unchanged && d_SFN > -1){
 			//~ return;
 		//~ }
@@ -210,7 +209,7 @@ namespace gr {
 	mib_unpack_vbm_impl::get_decoding_rate()
 	{
 		int count_success = 0;
-		for(int i = 0; i < d_SFN_vec.size(); i++){
+		for(unsigned i = 0; i < d_SFN_vec.size(); i++){
 			if(d_SFN_vec[i] > -1){
 				count_success++;
 			}

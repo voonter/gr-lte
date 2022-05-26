@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_REPEAT_MESSAGE_SOURCE_VF_IMPL_H
 #define INCLUDED_LTE_REPEAT_MESSAGE_SOURCE_VF_IMPL_H
 
-#include <lte/repeat_message_source_vf.h>
+#include <gnuradio/lte/repeat_message_source_vf.h>
 
 namespace gr {
   namespace lte {

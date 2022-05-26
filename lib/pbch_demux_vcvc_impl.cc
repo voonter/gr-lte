@@ -33,8 +33,7 @@ namespace gr {
     pbch_demux_vcvc::sptr
     pbch_demux_vcvc::make(int N_rb_dl, int rxant, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new pbch_demux_vcvc_impl(N_rb_dl, rxant, name));
+      return gnuradio::make_block_sptr<pbch_demux_vcvc_impl>(N_rb_dl, rxant, name);
     }
 
     /*
@@ -49,8 +48,8 @@ namespace gr {
 			  d_sym_num(-1),
 			  d_rxant(rxant)
     {
-        message_port_register_in(pmt::mp("cell_id"));
-		set_msg_handler(pmt::mp("cell_id"), boost::bind(&pbch_demux_vcvc_impl::set_cell_id_msg, this, _1));
+        message_port_register_in(pmt::mp("cell_id")); 
+		set_msg_handler(pmt::mp("cell_id"), [this](pmt::pmt_t msg) { this->set_cell_id_msg(msg); });
 
     }
 
@@ -64,7 +63,7 @@ namespace gr {
     void
     pbch_demux_vcvc_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-        for(int i = 0 ; i < ninput_items_required.size() ; i++){
+        for(unsigned i = 0 ; i < ninput_items_required.size() ; i++){
 			ninput_items_required[0] = noutput_items;
 		}
 
@@ -94,7 +93,7 @@ namespace gr {
 		//set noutput_items to zero. if output is produced, noutput_items is incremented.
 		noutput_items = 0;
 
-		int cell_id_mod3 = d_cell_id%3;
+		int cell_id_mod3 = d_cell_id%3; (void)cell_id_mod3;
 		int n_carriers = 12*d_N_rb_dl;
 
 		//Read tags for updated sym_num

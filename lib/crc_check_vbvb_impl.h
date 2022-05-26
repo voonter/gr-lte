@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_CRC_CHECK_VBVB_IMPL_H
 #define INCLUDED_LTE_CRC_CHECK_VBVB_IMPL_H
 
-#include <lte/crc_check_vbvb.h>
+#include <gnuradio/lte/crc_check_vbvb.h>
 #include <boost/crc.hpp>
 
 namespace gr {

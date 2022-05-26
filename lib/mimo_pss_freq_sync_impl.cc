@@ -24,7 +24,7 @@
 
 #include <gnuradio/io_signature.h>
 #include "mimo_pss_freq_sync_impl.h"
-#include <lte/pss.h>
+#include <gnuradio/lte/pss.h>
 #include <volk/volk.h>
 //#include <cstdio>
 
@@ -36,28 +36,26 @@ namespace lte
 {
 
 mimo_pss_freq_sync::sptr
-mimo_pss_freq_sync::make(int fftl, int rxant, boost::shared_ptr<gr::analog::sig_source_c> &sig)
+mimo_pss_freq_sync::make(int fftl, int rxant)
 {
-    return gnuradio::get_initial_sptr
-           (new mimo_pss_freq_sync_impl(fftl, rxant, sig));
+    return gnuradio::make_block_sptr<mimo_pss_freq_sync_impl>(fftl, rxant);
 }
 
 /*
  * The private constructor
  */
-mimo_pss_freq_sync_impl::mimo_pss_freq_sync_impl(int fftl, int rxant, boost::shared_ptr<gr::analog::sig_source_c> &sig)
+mimo_pss_freq_sync_impl::mimo_pss_freq_sync_impl(int fftl, int rxant)
     : gr::sync_block("mimo_pss_freq_sync",
                      gr::io_signature::make(1, 8, sizeof(gr_complex)),
                      gr::io_signature::make(0, 0, 0)),
 
     d_fftl(fftl),
     d_rxant(rxant),
-    d_pss_pos(-1),
     d_N_id_2(-1),
     d_sampl(0),
-    d_f_count(0),
     d_f_est(0.0),
-    d_sig(sig)
+    d_pss_pos(-1),
+    d_f_count(0)
 {
     int alig = volk_get_alignment();
 
@@ -70,6 +68,8 @@ mimo_pss_freq_sync_impl::mimo_pss_freq_sync_impl(int fftl, int rxant, boost::sha
     //set_max_noutput_items(fftl*75);   work call for maximum one pss
 
     d_id_key = pmt::string_to_symbol("N_id_2");
+    d_port_freq = pmt::string_to_symbol("freq");
+    message_port_register_out(d_port_freq);
 
 }
 
@@ -96,7 +96,7 @@ mimo_pss_freq_sync_impl::work(int noutput_items,
 
     std::vector <gr::tag_t> v;
     get_tags_in_range(v, 0, nir, nir+nout, d_id_key);
-    for (int m = 0 ; m < v.size() ; m++)
+    for (unsigned m = 0 ; m < v.size() ; m++)
     {
         uint64_t pss_pos = v[m].offset;
         pss_pos += 6*d_fftl+(6*144+160)*d_fftl/2048;
@@ -199,7 +199,8 @@ mimo_pss_freq_sync_impl::calc_freq_off()
 
     d_f_est = d_f_est + (a * freq);
 
-    (*d_sig).set_frequency((-1)*double(d_f_est) );
+    message_port_pub(d_port_freq, pmt::cons(pmt::intern("freq"), pmt::from_double((double)(-1)*double(d_f_est))));
+    //(*d_sig).set_frequency((-1)*double(d_f_est) );
     //printf("FREQ SYNC: estimate=%f, new freq-compensate: %f\n", freq, d_f_est);
 }
 

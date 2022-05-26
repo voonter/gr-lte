@@ -32,8 +32,7 @@ namespace gr {
     layer_demapper_vcvc::sptr
     layer_demapper_vcvc::make(int N_ant, int vlen, std::string style, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new layer_demapper_vcvc_impl(name, N_ant, vlen, style));
+      return gnuradio::make_block_sptr<layer_demapper_vcvc_impl>(name, N_ant, vlen, style);
     }
 
     /*
@@ -52,7 +51,7 @@ namespace gr {
 
 		pmt::pmt_t msg_buf = pmt::mp("N_ant");
 		message_port_register_in(msg_buf);
-		set_msg_handler(msg_buf, boost::bind(&layer_demapper_vcvc_impl::handle_msg, this, _1));
+		set_msg_handler(msg_buf, [this](pmt::pmt_t msg) { this->handle_msg(msg); });
 	}
 
     /*

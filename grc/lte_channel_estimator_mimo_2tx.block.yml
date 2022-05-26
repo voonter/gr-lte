@@ -1,0 +1,61 @@
+id: lte_channel_estimator_mimo_2tx
+label: Channel Estimator MIMO 2TX
+category: lte
+
+parameters:
+-   id: N_rb_dl
+    label: resource blocks
+    dtype: int
+    default: '50'
+    hide: none
+-   id: estimator_key
+    label: Tag Key
+    dtype: raw
+    default: slot
+    hide: none
+-   id: initial_id
+    label: initial Cell ID
+    dtype: int
+    default: '111'
+    hide: none
+-   id: rxant
+    label: RX antennas
+    dtype: int
+    default: '2'
+    hide: none
+
+inputs:
+-   label: in
+    dtype: complex
+    vlen: 1200
+-   label: cell_id
+    domain: message
+    dtype: message
+    optional: true
+
+outputs:
+-   label: ant_p0_est
+    dtype: complex
+    vlen: 1200
+-   label: ant_p1_est
+    dtype: complex
+    vlen: 1200
+
+templates:
+    imports: 'from lte_channel_estimator_mimo_2tx import lte_channel_estimator_mimo_2tx  #
+        grc-generated hier_block'
+    make: "lte_channel_estimator_mimo_2tx(\n    N_rb_dl=${ N_rb_dl },\n    estimator_key=${\
+        \ estimator_key },\n    initial_id=${ initial_id },\n    rxant=${ rxant },\n\
+        )"
+    callbacks:
+    - set_N_rb_dl(${ N_rb_dl })
+    - set_estimator_key(${ estimator_key })
+    - set_initial_id(${ initial_id })
+    - set_rxant(${ rxant })
+
+documentation: 'Johannes Demel, Kristian Maier
+
+    lte_channel_estimator_mimo_2tx.py'
+grc_source: ../examples/lte_channel_estimator_mimo_2tx.grc
+
+file_format: 1

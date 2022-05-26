@@ -36,8 +36,7 @@ namespace gr {
     rough_symbol_sync_cc::sptr
     rough_symbol_sync_cc::make(int fftl, int vlen, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new rough_symbol_sync_cc_impl(fftl, vlen, name));
+      return gnuradio::make_block_sptr<rough_symbol_sync_cc_impl>(fftl, vlen, name);
     }
 
     /*
@@ -156,7 +155,7 @@ namespace gr {
                     fine_pos = i;
                     if(d_corr_val < abs(val) ){
                         d_corr_val = abs(val);
-                        long abs_pos = nitems_read(0) + fine_pos;
+                        long abs_pos = nitems_read(0) + fine_pos; (void)abs_pos;
                         d_sym_pos = (nitems_read(0) + fine_pos)%d_slotl;
                         //printf("%s\tfine corr sym_pos = %ld\n",name().c_str(), d_sym_pos );
                         //printf("corr_val = %f\tsym_pos = %ld\tabs_pos = %ld\n", d_corr_val, d_sym_pos, abs_pos);

@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_CHANNEL_ESTIMATOR_VCVC_IMPL_H
 #define INCLUDED_LTE_CHANNEL_ESTIMATOR_VCVC_IMPL_H
 
-#include <lte/channel_estimator_vcvc.h>
+#include <gnuradio/lte/channel_estimator_vcvc.h>
 
 namespace gr {
   namespace lte {

@@ -37,8 +37,7 @@ namespace gr {
     pcfich_unpack_vfm::sptr
     pcfich_unpack_vfm::make(std::string key, std::string msg_buf_name, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new pcfich_unpack_vfm_impl(key, msg_buf_name, name));
+      return gnuradio::make_block_sptr<pcfich_unpack_vfm_impl>(key, msg_buf_name, name);
     }
 
     /*
@@ -76,7 +75,7 @@ namespace gr {
         std::vector <gr::tag_t> v_b;
         get_tags_in_range(v_b, 0, nitems_read(0), nitems_read(0)+noutput_items, d_key);
         if(v_b.size() > 0){
-            long offset = v_b[0].offset;
+            long offset = v_b[0].offset; (void)offset; 
             int value = int(pmt::to_long(v_b[0].value) );
             d_subframe = value;
 

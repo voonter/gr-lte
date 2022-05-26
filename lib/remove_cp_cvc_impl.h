@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_REMOVE_CP_CVC_IMPL_H
 #define INCLUDED_LTE_REMOVE_CP_CVC_IMPL_H
 
-#include <lte/remove_cp_cvc.h>
+#include <gnuradio/lte/remove_cp_cvc.h>
 
 namespace gr {
   namespace lte {

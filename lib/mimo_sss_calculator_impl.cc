@@ -35,8 +35,7 @@ namespace gr {
     mimo_sss_calculator::sptr
     mimo_sss_calculator::make(int rxant)
     {
-      return gnuradio::get_initial_sptr
-        (new mimo_sss_calculator_impl(rxant));
+      return gnuradio::make_block_sptr<mimo_sss_calculator_impl>(rxant);
     }
 
     /*
@@ -46,11 +45,11 @@ namespace gr {
       : gr::sync_block("mimo_sss_calculator",
               gr::io_signature::make(1, 1, sizeof(gr_complex)*72*rxant),
               gr::io_signature::make(0, 0, 0)),
-                d_rxant(rxant),
+                d_N_id_2(-1),
                 d_cell_id(-1),
+                d_rxant(rxant),
                 d_max_val_new(0.0),
                 d_max_val_old(0.0),
-                d_N_id_2(-1),
 //                d_offset(0),
                 d_sss_pos(0),
                 d_frame_start(0),
@@ -64,8 +63,8 @@ namespace gr {
         message_port_register_out(d_port_cell_id);
         d_port_frame_start = pmt::string_to_symbol("frame_start");
         message_port_register_out(d_port_frame_start);
-        message_port_register_in(pmt::mp("N_id_2"));
-		set_msg_handler(pmt::mp("N_id_2"), boost::bind(&mimo_sss_calculator_impl::msg_set_N_id_2, this, _1));
+        message_port_register_in(pmt::mp("N_id_2")); 
+		set_msg_handler(pmt::mp("N_id_2"), [this](pmt::pmt_t msg) { this->msg_set_N_id_2(msg); });
 
         //initialize d_cX
         char cX_x[31] = {0};
@@ -79,7 +78,7 @@ namespace gr {
         }
 
         //initialize d_sref
-        int m0_ref=0;
+        int m0_ref=0; (void)m0_ref;
         char sX_x[31]={0};
         sX_x[4]=1;
         for(int i = 0; i < 26 ; i++){
@@ -287,7 +286,7 @@ namespace gr {
         std::vector<float> tmp;
         for(int rx = 0; rx < rxant; rx++){
           xcorr(tmp, s0m0[rx], d_sref, N);
-          for(int i = 0 ; i < x_vec.size(); i++){
+          for(unsigned i = 0 ; i < x_vec.size(); i++){
             x_vec[i] += tmp[i];
           }
         }
@@ -307,7 +306,7 @@ namespace gr {
     {
       float max = 0;
       int pos = -1;
-      for (int i = 0 ; i < v.size() ; i++){
+      for (unsigned i = 0 ; i < v.size() ; i++){
           float mag = v[i];
           if (max < mag){
               max = mag;

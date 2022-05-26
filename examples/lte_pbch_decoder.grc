@@ -1,0 +1,384 @@
+options:
+  parameters:
+    author: Johannes Demel
+    category: lte
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: hierarchical block to decode PBCH
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb
+    hier_block_src_path: '.:'
+    id: lte_pbch_decoder
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: PBCH Decoder
+    window_size: 1920,1080
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [10, 10]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: pbch_descr_key
+  id: variable
+  parameters:
+    comment: ''
+    value: '"descr_part"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [536, 11]
+    rotation: 0
+    state: enabled
+- name: style
+  id: variable
+  parameters:
+    comment: ''
+    value: '"tx_diversity"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [424, 11]
+    rotation: 0
+    state: enabled
+- name: vlen
+  id: variable
+  parameters:
+    comment: ''
+    value: '240'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [352, 11]
+    rotation: 0
+    state: enabled
+- name: N_rb_dl
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: resource blocks
+    short_id: ''
+    type: intx
+    value: '50'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 11]
+    rotation: 0
+    state: enabled
+- name: lte_pbch_demux_vcvc_0
+  id: lte_pbch_demux_vcvc
+  parameters:
+    N_rb_dl: N_rb_dl
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [208, 208]
+    rotation: 0
+    state: enabled
+- name: lte_pbch_demux_vcvc_0_0
+  id: lte_pbch_demux_vcvc
+  parameters:
+    N_rb_dl: N_rb_dl
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [208, 376]
+    rotation: 0
+    state: enabled
+- name: lte_pbch_demux_vcvc_0_1
+  id: lte_pbch_demux_vcvc
+  parameters:
+    N_rb_dl: N_rb_dl
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [208, 296]
+    rotation: 0
+    state: enabled
+- name: lte_pbch_descrambler_0
+  id: lte_pbch_descrambler
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1120, 377]
+    rotation: 0
+    state: enabled
+- name: lte_pre_decoder_vcvc_0
+  id: lte_pre_decoder_vcvc
+  parameters:
+    N_ant: '1'
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: '1'
+    style: style
+    vlen: vlen
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [408, 224]
+    rotation: 0
+    state: enabled
+- name: lte_pre_decoder_vcvc_1
+  id: lte_pre_decoder_vcvc
+  parameters:
+    N_ant: '2'
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: '1'
+    style: style
+    vlen: vlen
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [408, 328]
+    rotation: 0
+    state: enabled
+- name: pad_sink_0
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: out
+    num_streams: '1'
+    optional: 'False'
+    type: float
+    vlen: '120'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1296, 379]
+    rotation: 0
+    state: enabled
+- name: pad_source_0
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: in0
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: 12*N_rb_dl
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 195]
+    rotation: 0
+    state: enabled
+- name: pad_source_1
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: in1
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: 12*N_rb_dl
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 283]
+    rotation: 0
+    state: enabled
+- name: pad_source_2
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: in2
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: 12*N_rb_dl
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 363]
+    rotation: 0
+    state: enabled
+- name: pbch_blocks_interleave_0
+  id: blocks_interleave
+  parameters:
+    affinity: ''
+    alias: ''
+    blocksize: '1'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '2'
+    type: complex
+    vlen: vlen
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [768, 360]
+    rotation: 0
+    state: enabled
+- name: pbch_layer_demapper_vcvc_0
+  id: lte_layer_demapper_vcvc
+  parameters:
+    N_ant: '1'
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    style: style
+    vlen: vlen
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [576, 251]
+    rotation: 0
+    state: enabled
+- name: pbch_layer_demapper_vcvc_1
+  id: lte_layer_demapper_vcvc
+  parameters:
+    N_ant: '2'
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    style: style
+    vlen: vlen
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [576, 371]
+    rotation: 0
+    state: enabled
+- name: pbch_qpsk_soft_demod_vcvf_0
+  id: lte_qpsk_soft_demod_vcvf
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: vlen
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [912, 371]
+    rotation: 0
+    state: enabled
+- name: z_pad_source_cell_id
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: cell_id
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: message
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 451]
+    rotation: 0
+    state: enabled
+
+connections:
+- [lte_pbch_demux_vcvc_0, '0', lte_pre_decoder_vcvc_0, '0']
+- [lte_pbch_demux_vcvc_0, '0', lte_pre_decoder_vcvc_1, '0']
+- [lte_pbch_demux_vcvc_0_0, '0', lte_pre_decoder_vcvc_1, '2']
+- [lte_pbch_demux_vcvc_0_1, '0', lte_pre_decoder_vcvc_0, '1']
+- [lte_pbch_demux_vcvc_0_1, '0', lte_pre_decoder_vcvc_1, '1']
+- [lte_pbch_descrambler_0, '0', pad_sink_0, '0']
+- [lte_pre_decoder_vcvc_0, '0', pbch_layer_demapper_vcvc_0, '0']
+- [lte_pre_decoder_vcvc_1, '0', pbch_layer_demapper_vcvc_1, '0']
+- [pad_source_0, '0', lte_pbch_demux_vcvc_0, '0']
+- [pad_source_1, '0', lte_pbch_demux_vcvc_0_1, '0']
+- [pad_source_2, '0', lte_pbch_demux_vcvc_0_0, '0']
+- [pbch_blocks_interleave_0, '0', pbch_qpsk_soft_demod_vcvf_0, '0']
+- [pbch_layer_demapper_vcvc_0, '0', pbch_blocks_interleave_0, '0']
+- [pbch_layer_demapper_vcvc_1, '0', pbch_blocks_interleave_0, '1']
+- [pbch_qpsk_soft_demod_vcvf_0, '0', lte_pbch_descrambler_0, '0']
+- [z_pad_source_cell_id, out, lte_pbch_demux_vcvc_0, cell_id]
+- [z_pad_source_cell_id, out, lte_pbch_demux_vcvc_0_0, cell_id]
+- [z_pad_source_cell_id, out, lte_pbch_demux_vcvc_0_1, cell_id]
+- [z_pad_source_cell_id, out, lte_pbch_descrambler_0, cell_id]
+
+metadata:
+  file_format: 1

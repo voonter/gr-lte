@@ -32,8 +32,7 @@ namespace gr {
     subblock_deinterleaver_vfvf::sptr
     subblock_deinterleaver_vfvf::make(int num_groups, int items_per_group, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new subblock_deinterleaver_vfvf_impl(num_groups, items_per_group, name));
+      return gnuradio::make_block_sptr<subblock_deinterleaver_vfvf_impl>(num_groups, items_per_group, name);
     }
 
     /*

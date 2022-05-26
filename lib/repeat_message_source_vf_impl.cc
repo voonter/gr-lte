@@ -33,8 +33,7 @@ namespace gr {
     repeat_message_source_vf::sptr
     repeat_message_source_vf::make(int vector_len, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new repeat_message_source_vf_impl(vector_len, name));
+      return gnuradio::make_block_sptr<repeat_message_source_vf_impl>(vector_len, name);
     }
 
     /*
@@ -48,8 +47,8 @@ namespace gr {
               d_is_initialized(false)
     {
 		d_port = pmt::string_to_symbol("vector");
-		message_port_register_in(d_port);
-		set_msg_handler(pmt::mp("vector"), boost::bind(&repeat_message_source_vf_impl::handle_msg, this, _1));
+		message_port_register_in(d_port); 
+		set_msg_handler(pmt::mp("vector"), [this](pmt::pmt_t msg) { this->handle_msg(msg); });
 	}
 
     /*
@@ -89,7 +88,7 @@ namespace gr {
 		printf("received message vector\n");
 
 		d_out_vector = new float[d_vector_len];
-		for(int c = 0; c < pmt::length(msg); c++ ){
+		for(unsigned c = 0; c < pmt::length(msg); c++ ){
 			float val = (float) pmt::to_double( pmt::nth(c, msg) );
 			d_out_vector[c] = val;
 			//~ printf("%+1.2f\t%+1.2f\tdiff = %+1.2f\n", d_out_vector[c], val, val - d_out_vector[c]);

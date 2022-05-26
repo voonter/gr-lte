@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_PCFICH_DEMUX_VCVC_IMPL_H
 #define INCLUDED_LTE_PCFICH_DEMUX_VCVC_IMPL_H
 
-#include <lte/pcfich_demux_vcvc.h>
+#include <gnuradio/lte/pcfich_demux_vcvc.h>
 #include <cstdio>
 
 namespace gr {

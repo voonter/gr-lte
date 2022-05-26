@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_MIMO_SSS_TAGGER_IMPL_H
 #define INCLUDED_LTE_MIMO_SSS_TAGGER_IMPL_H
 
-#include <lte/mimo_sss_tagger.h>
+#include <gnuradio/lte/mimo_sss_tagger.h>
 
 namespace gr {
   namespace lte {

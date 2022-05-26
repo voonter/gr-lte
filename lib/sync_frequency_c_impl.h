@@ -21,16 +21,15 @@
 #ifndef INCLUDED_LTE_SYNC_FREQUENCY_C_IMPL_H
 #define INCLUDED_LTE_SYNC_FREQUENCY_C_IMPL_H
 
-#include <lte/sync_frequency_c.h>
+#include <gnuradio/lte/sync_frequency_c.h>
 
 namespace gr {
   namespace lte {
 
-    class sync_frequency_c_impl : public sync_frequency_c
+    class LTE_API sync_frequency_c_impl : public sync_frequency_c
     {
      private:
         // basic attributes
-        boost::shared_ptr<gr::analog::sig_source_c> d_sig;
         int d_fftl;
         int d_cpl;
         int d_cpl0;
@@ -43,13 +42,15 @@ namespace gr {
         int d_samp_num;
         int d_work_call;
 
+        pmt::pmt_t d_port_freq;
+
         //methods for further calculations
         void calc_f_off_av();
 
         gr_complex corr(gr_complex *res, gr_complex *x, gr_complex *y, int len);
 
      public:
-      sync_frequency_c_impl(boost::shared_ptr<gr::analog::sig_source_c> &sig, int fftl, std::string& name);
+      sync_frequency_c_impl(int fftl, std::string& name);
       ~sync_frequency_c_impl();
 
       // Where all the action really happens

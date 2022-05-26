@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_DESCRAMBLER_VFVF_IMPL_H
 #define INCLUDED_LTE_DESCRAMBLER_VFVF_IMPL_H
 
-#include <lte/descrambler_vfvf.h>
+#include <gnuradio/lte/descrambler_vfvf.h>
 
 namespace gr {
   namespace lte {

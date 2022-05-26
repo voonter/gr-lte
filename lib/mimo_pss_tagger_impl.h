@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_MIMO_PSS_TAGGER_IMPL_H
 #define INCLUDED_LTE_MIMO_PSS_TAGGER_IMPL_H
 
-#include <lte/mimo_pss_tagger.h>
+#include <gnuradio/lte/mimo_pss_tagger.h>
 
 namespace gr {
   namespace lte {

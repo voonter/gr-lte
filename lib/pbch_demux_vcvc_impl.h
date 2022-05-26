@@ -21,12 +21,12 @@
 #ifndef INCLUDED_LTE_PBCH_DEMUX_VCVC_IMPL_H
 #define INCLUDED_LTE_PBCH_DEMUX_VCVC_IMPL_H
 
-#include <lte/pbch_demux_vcvc.h>
+#include <gnuradio/lte/pbch_demux_vcvc.h>
 
 namespace gr {
   namespace lte {
 
-    class pbch_demux_vcvc_impl : public pbch_demux_vcvc
+    class LTE_API pbch_demux_vcvc_impl : public pbch_demux_vcvc
     {
      private:
 		int d_cell_id;

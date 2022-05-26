@@ -35,8 +35,7 @@ namespace lte
 mimo_pss_tagger::sptr
 mimo_pss_tagger::make(int fftl)
 {
-    return gnuradio::get_initial_sptr
-           (new mimo_pss_tagger_impl(fftl));
+    return gnuradio::make_block_sptr<mimo_pss_tagger_impl>(fftl);
 }
 
 /*
@@ -50,22 +49,22 @@ mimo_pss_tagger_impl::mimo_pss_tagger_impl(int fftl)
     d_cpl(144*fftl/2048),
     d_cpl0(160*fftl/2048),
     d_slotl(7*fftl+6*d_cpl+d_cpl0),
-    d_halffl(10*d_slotl),
     d_half_frame_start(0),
     d_N_id_2(-1),
     d_slot_num(-1),
+    d_halffl(10*d_slotl),
     d_is_locked(false)
 {
     d_slot_key=pmt::string_to_symbol("slot");
     d_tag_id = pmt::string_to_symbol(this->name() );
     d_id_key = pmt::string_to_symbol("N_id_2");
 
-    message_port_register_in(pmt::mp("lock"));
-    set_msg_handler(pmt::mp("lock"), boost::bind(&mimo_pss_tagger_impl::handle_msg_lock, this, _1));
-    message_port_register_in(pmt::mp("half_frame"));
-    set_msg_handler(pmt::mp("half_frame"), boost::bind(&mimo_pss_tagger_impl::handle_msg_half_frame, this, _1));
-    message_port_register_in(pmt::mp("N_id_2"));
-    set_msg_handler(pmt::mp("N_id_2"), boost::bind(&mimo_pss_tagger_impl::handle_msg_N_id_2, this, _1));
+    message_port_register_in(pmt::mp("lock")); 
+    set_msg_handler(pmt::mp("lock"), [this](pmt::pmt_t msg) { this->handle_msg_lock(msg); });
+    message_port_register_in(pmt::mp("half_frame")); 
+    set_msg_handler(pmt::mp("half_frame"), [this](pmt::pmt_t msg) { this->handle_msg_half_frame(msg); });
+    message_port_register_in(pmt::mp("N_id_2")); 
+    set_msg_handler(pmt::mp("N_id_2"), [this](pmt::pmt_t msg) { this->handle_msg_N_id_2(msg); });
 }
 
 /*

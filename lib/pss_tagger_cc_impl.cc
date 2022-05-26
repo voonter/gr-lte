@@ -31,8 +31,7 @@ namespace gr {
     pss_tagger_cc::sptr
     pss_tagger_cc::make(int fftl, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new pss_tagger_cc_impl(fftl, name));
+      return gnuradio::make_block_sptr<pss_tagger_cc_impl>(fftl, name);
     }
 
     /*
@@ -56,14 +55,14 @@ namespace gr {
         d_tag_id=pmt::string_to_symbol(this->name() );
         d_id_key = pmt::string_to_symbol("N_id_2");
         
-        message_port_register_in(pmt::mp("lock"));
-		set_msg_handler(pmt::mp("lock"), boost::bind(&pss_tagger_cc_impl::handle_msg_lock, this, _1));
+        message_port_register_in(pmt::mp("lock")); 
+		set_msg_handler(pmt::mp("lock"), [this](pmt::pmt_t msg) { this->handle_msg_lock(msg); });
 
-        message_port_register_in(pmt::mp("half_frame"));
-		set_msg_handler(pmt::mp("half_frame"), boost::bind(&pss_tagger_cc_impl::handle_msg_half_frame_start, this, _1));
+        message_port_register_in(pmt::mp("half_frame")); 
+		set_msg_handler(pmt::mp("half_frame"), [this](pmt::pmt_t msg) { this->handle_msg_half_frame_start(msg); });
 
-        message_port_register_in(pmt::mp("N_id_2"));
-		set_msg_handler(pmt::mp("N_id_2"), boost::bind(&pss_tagger_cc_impl::handle_msg_N_id_2, this, _1));
+        message_port_register_in(pmt::mp("N_id_2")); 
+		set_msg_handler(pmt::mp("N_id_2"), [this](pmt::pmt_t msg) { this->handle_msg_N_id_2(msg); });
     }
     
     void

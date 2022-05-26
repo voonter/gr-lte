@@ -33,8 +33,7 @@ namespace gr {
     pss_symbol_selector_cvc::sptr
     pss_symbol_selector_cvc::make(int fftl, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new pss_symbol_selector_cvc_impl(fftl, name));
+      return gnuradio::make_block_sptr<pss_symbol_selector_cvc_impl>(fftl, name);
     }
 
     /*
@@ -47,9 +46,9 @@ namespace gr {
                 d_fftl(fftl),
                 d_cpl(144*fftl/2048),
                 d_cpl0(160*fftl/2048),
+                d_slotl(7*fftl+6*d_cpl+d_cpl0),
                 d_syml(fftl+d_cpl),
                 d_syml0(fftl+d_cpl0),
-                d_slotl(7*fftl+6*d_cpl+d_cpl0),
                 d_offset(0),
                 d_sym_pos(0),
                 d_ass_half_frame_start(40*d_slotl),
@@ -62,11 +61,11 @@ namespace gr {
         d_sym_key = pmt::string_to_symbol("symbol");
         d_tag_id = pmt::string_to_symbol(this->name() );
         
-        message_port_register_in(pmt::mp("lock"));
-		set_msg_handler(pmt::mp("lock"), boost::bind(&pss_symbol_selector_cvc_impl::handle_msg_lock, this, _1));
+        message_port_register_in(pmt::mp("lock")); 
+		set_msg_handler(pmt::mp("lock"), [this](pmt::pmt_t msg) { this->handle_msg_lock(msg); });
 
-        message_port_register_in(pmt::mp("half_frame"));
-		set_msg_handler(pmt::mp("half_frame"), boost::bind(&pss_symbol_selector_cvc_impl::handle_msg_half_frame_start, this, _1));
+        message_port_register_in(pmt::mp("half_frame")); 
+		set_msg_handler(pmt::mp("half_frame"), [this](pmt::pmt_t msg) { this->handle_msg_half_frame_start(msg); });
 
     }
     

@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_SSS_SYMBOL_SELECTOR_CVC_IMPL_H
 #define INCLUDED_LTE_SSS_SYMBOL_SELECTOR_CVC_IMPL_H
 
-#include <lte/sss_symbol_selector_cvc.h>
+#include <gnuradio/lte/sss_symbol_selector_cvc.h>
 
 namespace gr {
   namespace lte {

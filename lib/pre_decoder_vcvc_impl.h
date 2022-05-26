@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_PRE_DECODER_VCVC_IMPL_H
 #define INCLUDED_LTE_PRE_DECODER_VCVC_IMPL_H
 
-#include <lte/pre_decoder_vcvc.h>
+#include <gnuradio/lte/pre_decoder_vcvc.h>
 
 namespace gr {
   namespace lte {

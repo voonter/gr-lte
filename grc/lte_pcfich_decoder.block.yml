@@ -1,0 +1,54 @@
+id: lte_pcfich_decoder
+label: PCFICH Decoder
+category: lte
+
+parameters:
+-   id: N_rb_dl
+    label: resource blocks
+    dtype: int
+    default: '50'
+    hide: none
+-   id: key
+    label: Input key
+    dtype: raw
+    default: symbol
+    hide: none
+
+inputs:
+-   label: in0
+    dtype: complex
+    vlen: 600
+-   label: in1
+    dtype: complex
+    vlen: 600
+-   label: in2
+    dtype: complex
+    vlen: 600
+-   label: N_ant
+    domain: message
+    dtype: message
+-   label: cell_id
+    domain: message
+    dtype: message
+
+outputs:
+-   label: CFI
+    domain: message
+    dtype: message
+    optional: true
+
+templates:
+    imports: 'from lte_pcfich_decoder import lte_pcfich_decoder  # grc-generated hier_block'
+    make: "lte_pcfich_decoder(\n    N_rb_dl=${ N_rb_dl },\n    key=${ key },\n)"
+    callbacks:
+    - set_N_rb_dl(${ N_rb_dl })
+    - set_key(${ key })
+
+documentation: 'Johannes Demel
+
+    hier block combining blocks and parameters to decode PCFICH
+
+    lte_pcfich_decoder.py'
+grc_source: ../examples/lte_pcfich_decoder.grc
+
+file_format: 1

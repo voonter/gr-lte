@@ -33,8 +33,7 @@ namespace gr {
     remove_cp_cvc::sptr
     remove_cp_cvc::make(int fftl, std::string key, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new remove_cp_cvc_impl(fftl, key, name));
+      return gnuradio::make_block_sptr<remove_cp_cvc_impl>(fftl, key, name);
     }
 
     /*
@@ -50,10 +49,10 @@ namespace gr {
 			  d_slotl(7*fftl+6*d_cpl+d_cpl0),
 			  d_symb(0),
 			  d_sym_num(0),
+              d_symbols_per_frame(140),
 			  d_work_call(0),
 			  d_found_frame_start(false),
-			  d_frame_start(0),
-              d_symbols_per_frame(140)
+			  d_frame_start(0)
     {
 		d_key=pmt::string_to_symbol(key);
 		d_tag_id=pmt::string_to_symbol(this->name() );

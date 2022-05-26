@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_PCFICH_UNPACK_VFM_IMPL_H
 #define INCLUDED_LTE_PCFICH_UNPACK_VFM_IMPL_H
 
-#include <lte/pcfich_unpack_vfm.h>
+#include <gnuradio/lte/pcfich_unpack_vfm.h>
 
 namespace gr {
   namespace lte {

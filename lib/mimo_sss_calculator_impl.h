@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_MIMO_SSS_CALCULATOR_IMPL_H
 #define INCLUDED_LTE_MIMO_SSS_CALCULATOR_IMPL_H
 
-#include <lte/mimo_sss_calculator.h>
+#include <gnuradio/lte/mimo_sss_calculator.h>
 
 namespace gr {
   namespace lte {

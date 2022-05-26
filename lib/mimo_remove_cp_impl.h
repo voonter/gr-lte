@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_MIMO_REMOVE_CP_IMPL_H
 #define INCLUDED_LTE_MIMO_REMOVE_CP_IMPL_H
 
-#include <lte/mimo_remove_cp.h>
+#include <gnuradio/lte/mimo_remove_cp.h>
 
 namespace gr {
   namespace lte {

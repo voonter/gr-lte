@@ -31,8 +31,7 @@ namespace gr {
     sss_symbol_selector_cvc::sptr
     sss_symbol_selector_cvc::make(int fftl, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new sss_symbol_selector_cvc_impl(fftl, name));
+      return gnuradio::make_block_sptr<sss_symbol_selector_cvc_impl>(fftl, name);
     }
 
     /*
@@ -48,9 +47,10 @@ namespace gr {
                 d_slotl(7*fftl+6*d_cpl+d_cpl0),
                 d_slot_num(0),
                 d_sym_num(0),
+                d_N_id_2(-1),
                 d_abs_pos(0),
-                d_offset(0),
-                d_N_id_2(-1)
+                d_offset(0)
+
     {
         set_relative_rate(1.0/double(d_fftl+d_cpl0));
         //printf("rel_rate = %f\n",relative_rate());
@@ -70,7 +70,7 @@ namespace gr {
     void
     sss_symbol_selector_cvc_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-        for(int i = 0 ; i < ninput_items_required.size() ; i++){
+        for(unsigned i = 0 ; i < ninput_items_required.size() ; i++){
             ninput_items_required[i] = noutput_items;
         }
         /* <+forecast+> e.g. ninput_items_required[0] = noutput_items */
@@ -91,6 +91,7 @@ namespace gr {
         if (v_id.size() > 0){
             d_N_id_2 = int(pmt::to_long(v_id[0].value));
             long id_off = v_id[0].offset;
+            (void)id_off;
             //printf("%s found N_id_2 = %i\t id_off = %ld\n",name().c_str(), d_N_id_2, id_off);
         }
         

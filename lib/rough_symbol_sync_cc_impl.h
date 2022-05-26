@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_ROUGH_SYMBOL_SYNC_CC_IMPL_H
 #define INCLUDED_LTE_ROUGH_SYMBOL_SYNC_CC_IMPL_H
 
-#include <lte/rough_symbol_sync_cc.h>
+#include <gnuradio/lte/rough_symbol_sync_cc.h>
 
 namespace gr {
   namespace lte {

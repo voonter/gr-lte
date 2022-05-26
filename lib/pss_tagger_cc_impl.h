@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_PSS_TAGGER_CC_IMPL_H
 #define INCLUDED_LTE_PSS_TAGGER_CC_IMPL_H
 
-#include <lte/pss_tagger_cc.h>
+#include <gnuradio/lte/pss_tagger_cc.h>
 
 namespace gr {
   namespace lte {

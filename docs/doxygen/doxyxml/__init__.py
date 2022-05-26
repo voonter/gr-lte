@@ -64,7 +64,8 @@ u'Outputs the vital aadvark statistics.'
 
 """
 
-from doxyindex import DoxyIndex, DoxyFunction, DoxyParam, DoxyClass, DoxyFile, DoxyNamespace, DoxyGroup, DoxyFriend, DoxyOther
+from .doxyindex import DoxyIndex, DoxyFunction, DoxyParam, DoxyClass, DoxyFile, DoxyNamespace, DoxyGroup, DoxyFriend, DoxyOther
+
 
 def _test():
     import os
@@ -77,6 +78,6 @@ def _test():
     import doctest
     return doctest.testmod()
 
+
 if __name__ == "__main__":
     _test()
-

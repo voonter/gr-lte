@@ -1,0 +1,49 @@
+id: lte_ofdm_demodulator
+label: LTE OFDM Demodulator
+category: lte
+
+parameters:
+-   id: N_rb_dl
+    label: resource blocks
+    dtype: int
+    default: '50'
+    hide: none
+-   id: fftlen
+    label: FFT length
+    dtype: int
+    default: '2048'
+    hide: none
+-   id: ofdm_key
+    label: Tag Key
+    dtype: raw
+    default: slot
+    hide: none
+
+inputs:
+-   label: in
+    dtype: complex
+    vlen: 1
+
+outputs:
+-   label: out
+    dtype: complex
+    vlen: 600
+
+templates:
+    imports: 'from lte_ofdm_demodulator import lte_ofdm_demodulator  # grc-generated
+        hier_block'
+    make: "lte_ofdm_demodulator(\n    N_rb_dl=${ N_rb_dl },\n    fftlen=${ fftlen\
+        \ },\n    ofdm_key=${ ofdm_key },\n)"
+    callbacks:
+    - set_N_rb_dl(${ N_rb_dl })
+    - set_fftlen(${ fftlen })
+    - set_ofdm_key(${ ofdm_key })
+
+documentation: 'Johannes Demel
+
+    OFDM RX operations
+
+    lte_ofdm_demodulator.py'
+grc_source: ../examples/lte_ofdm_demodulator.grc
+
+file_format: 1

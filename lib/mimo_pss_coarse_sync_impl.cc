@@ -28,7 +28,7 @@
 #include <cstdio>
 #include <cmath>
 #include <volk/volk.h>
-#include "lte/pss.h"
+#include <gnuradio/lte/pss.h>
 
 namespace gr {
   namespace lte {
@@ -36,7 +36,7 @@ namespace gr {
     mimo_pss_coarse_sync::sptr
     mimo_pss_coarse_sync::make(int syncl, int rxant)
     {
-      return gnuradio::get_initial_sptr(new mimo_pss_coarse_sync_impl(syncl, rxant));
+      return gnuradio::make_block_sptr<mimo_pss_coarse_sync_impl>(syncl, rxant);
     }
 
     /*

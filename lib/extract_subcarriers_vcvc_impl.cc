@@ -31,8 +31,7 @@ namespace gr {
     extract_subcarriers_vcvc::sptr
     extract_subcarriers_vcvc::make(int N_rb_dl, int fftl, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new extract_subcarriers_vcvc_impl(name, N_rb_dl, fftl));
+      return gnuradio::make_block_sptr<extract_subcarriers_vcvc_impl>(name, N_rb_dl, fftl);
     }
 
     /*

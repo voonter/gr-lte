@@ -32,31 +32,31 @@ namespace gr {
   namespace lte {
 
     sync_frequency_c::sptr
-    sync_frequency_c::make(boost::shared_ptr<gr::analog::sig_source_c> &sig, int fftl, std::string name)
+    sync_frequency_c::make(int fftl, std::string name)
     {
-      return gnuradio::get_initial_sptr
-        (new sync_frequency_c_impl(sig, fftl, name));
+      return gnuradio::make_block_sptr<sync_frequency_c_impl>(fftl, name);
     }
 
     /*
      * The private constructor
      */
-    sync_frequency_c_impl::sync_frequency_c_impl(boost::shared_ptr<gr::analog::sig_source_c> &sig, int fftl, std::string& name)
+    sync_frequency_c_impl::sync_frequency_c_impl(int fftl, std::string& name)
       : gr::sync_block(name,
               gr::io_signature::make( 1, 1, sizeof(gr_complex)),
               gr::io_signature::make(0, 0, 0)),
-                d_sig(sig),
                 d_fftl(fftl),
                 d_cpl(144*fftl/2048),
                 d_cpl0(160*fftl/2048),
                 d_slotl(7*fftl+6*d_cpl+d_cpl0),
                 d_samp_rate(d_slotl/0.0005),
-                d_samp_num(0),
-                d_work_call(0),
+                d_offset(0),
                 d_f_av(0.0),
-                d_offset(0)
+                d_samp_num(0),
+                d_work_call(0)
     {
         d_buffer = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*d_slotl);
+        d_port_freq = pmt::string_to_symbol("freq");
+        message_port_register_out(d_port_freq);
     }
 
     /*
@@ -74,14 +74,14 @@ namespace gr {
     {
         const gr_complex *in = (const gr_complex *) input_items[0];
         int samp_num = d_samp_num;
-        int fftl = d_fftl;
-        int cpl = d_cpl;
-        int cpl0 = d_cpl0;
+        int fftl = d_fftl; (void)fftl;
+        int cpl = d_cpl; (void)cpl;
+        int cpl0 = d_cpl0; (void)cpl0;
         int slotl = d_slotl;
 
         std::vector <gr::tag_t> v;
         get_tags_in_range(v, 0, nitems_read(0), nitems_read(0)+noutput_items);
-        for (int m = 0 ; m < v.size() ; m++){
+        for (unsigned m = 0 ; m < v.size() ; m++){
             int offset = int((v[m].offset)%slotl);
             if( offset != d_offset){
 //                printf("%s\tASYNC!\tnew offset = %i\told offset = %i\tsamp_num = %i\n", name().c_str(), offset, d_offset, samp_num);
@@ -159,8 +159,9 @@ namespace gr {
         d_f_av=d_f_av - (0.01 * f_off);
 
         //f_vec.push_back(d_f_av);
-
-        (*d_sig).set_frequency((-1)*double(d_f_av) );
+        
+        message_port_pub(d_port_freq, pmt::cons(pmt::intern("freq"), pmt::from_double((double)(-1)*double(d_f_av))));
+        //(*d_sig).set_frequency((-1)*double(d_f_av) );
     }
 
     gr_complex

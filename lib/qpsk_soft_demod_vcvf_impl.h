@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_QPSK_SOFT_DEMOD_VCVF_IMPL_H
 #define INCLUDED_LTE_QPSK_SOFT_DEMOD_VCVF_IMPL_H
 
-#include <lte/qpsk_soft_demod_vcvf.h>
+#include <gnuradio/lte/qpsk_soft_demod_vcvf.h>
 
 namespace gr {
   namespace lte {

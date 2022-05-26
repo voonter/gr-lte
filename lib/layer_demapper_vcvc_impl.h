@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_LAYER_DEMAPPER_VCVC_IMPL_H
 #define INCLUDED_LTE_LAYER_DEMAPPER_VCVC_IMPL_H
 
-#include <lte/layer_demapper_vcvc.h>
+#include <gnuradio/lte/layer_demapper_vcvc.h>
 
 namespace gr {
   namespace lte {

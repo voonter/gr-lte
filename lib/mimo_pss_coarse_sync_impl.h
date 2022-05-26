@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LTE_mimo_pss_coarse_sync_IMPL_H
 #define INCLUDED_LTE_mimo_pss_coarse_sync_IMPL_H
 
-#include <lte/mimo_pss_coarse_sync.h>
+#include <gnuradio/lte/mimo_pss_coarse_sync.h>
 #include <gnuradio/filter/fir_filter.h>
 
 namespace gr
